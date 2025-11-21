@@ -19,8 +19,10 @@
       <p>Loading cart...</p>
     </div>
   }
+
+  <div class="spacer"></div>
   
-  @defer (on viewport; hydrate on interaction) {
+  @defer (on viewport; hydrate on viewport) {
     <app-cart-hydration-demo></app-cart-hydration-demo>
   } @placeholder (minimum 1s) {
     <div class="hydration-demo-placeholder">

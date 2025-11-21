@@ -2,11 +2,94 @@
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+✨ Spartacus Hydration Demo - Angular Standalone Components with SSR ✨
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This workspace demonstrates Angular hydration features with SAP Spartacus storefront, built using standalone components and server-side rendering (SSR).
 
-## Run tasks
+## 🎯 Project Overview
+
+This Nx monorepo contains:
+
+- **cart-demo**: A demo application showcasing Angular hydration with Spartacus cart features
+- **spartacus-cart-utils**: A utility library for working with Spartacus cart functionality
+- **test-spartacus-inc-hyd**: Additional test application
+
+### Key Features
+
+#### 🔥 Angular Hydration
+
+The cart-demo application demonstrates advanced Angular hydration capabilities:
+
+- **Client Hydration** with Event Replay and No HTTP Transfer Cache
+- **Incremental Hydration** using `@defer` blocks
+- **Lazy Loading** with interaction-based triggers
+- **Hydration on Viewport** for components that scroll into view
+
+#### 🛒 Spartacus Integration
+
+- Full integration with SAP Spartacus storefront
+- Cart management using Spartacus facades (`ActiveCartFacade`, `MultiCartFacade`)
+- Real-time cart data display with hydration
+
+#### 🎨 Standalone Components Architecture
+
+All components are built using Angular standalone components:
+
+- `AppComponent` - Main application component
+- `CartHydrationDemoComponent` - Demonstrates hydration features
+- No NgModules required (except for legacy Spartacus compatibility)
+
+### Hydration Demo Features
+
+The `cart-demo` application includes:
+
+1. **Deferred Cart Loading**
+
+   - Cart information loads only on user interaction
+   - Uses `@defer (on interaction)` with `hydrate on interaction`
+   - Displays loading and placeholder states
+
+2. **Viewport-Based Hydration**
+
+   - Demo component hydrates when scrolled into view
+   - Uses `@defer (on viewport)` directive
+   - Tracks hydration state and timestamp
+
+3. **Hydration Metrics**
+   - Real-time hydration status tracking
+   - Interaction counter
+   - Timestamp recording
+   - Visual indicators for hydration state
+
+[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created.
+
+## 🚀 Getting Started
+
+### Run the Cart Demo Application
+
+**Client-side development mode:**
+
+```sh
+npm run serve:cart-demo
+```
+
+Then open http://localhost:4200
+
+**Server-side rendering (SSR) mode:**
+
+```sh
+npm run serve:ssr:cart-demo
+```
+
+Then open http://localhost:4000
+
+**Build all projects:**
+
+```sh
+npm run build:all
+```
+
+### Run Other Tasks
 
 To run tasks with Nx use:
 
@@ -17,80 +100,90 @@ npx nx <target> <project-name>
 For example:
 
 ```sh
-npx nx build myproject
+npx nx build spartacus-cart-utils
+npx nx test cart-demo
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
 
 [More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
-## Add new projects
+## 🏗️ Architecture & Implementation
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### Application Configuration
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+The cart-demo uses standalone component bootstrapping:
+
+```typescript
+// main.ts - Client-side bootstrap
+bootstrapApplication(AppComponent, appConfig);
+
+// main.server.ts - SSR bootstrap
+const bootstrap = () => bootstrapApplication(AppComponent, config);
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+### Hydration Configuration
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
+```typescript
+// app.config.ts
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(appRoutes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideClientHydration(
+      withEventReplay(), // Replays user events after hydration
+      withNoHttpTransferCache() // Prevents HTTP request duplication
+    ),
+    // ... Spartacus providers
+  ],
+};
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Deferred Loading Example
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+```typescript
+@defer (on interaction(trigger); hydrate on interaction) {
+  <div class="cart-info">
+    <p>Items in cart: {{ cartItemsCount$ | async }}</p>
+    <p>Cart total: {{ (cartTotal$ | async) ?? 'N/A' }}</p>
+  </div>
+} @placeholder {
+  <button #trigger (click)="loadCart()">Click to load cart</button>
+} @loading (minimum 500ms) {
+  <p>Loading cart...</p>
+}
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Spartacus Cart Utils Library
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The `spartacus-cart-utils` library provides a clean interface for Spartacus cart operations:
 
-### Step 2
+```typescript
+@Injectable({ providedIn: 'root' })
+export class SpartacusCartUtilsService {
+  private activeCartFacade = inject(ActiveCartFacade);
 
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+  getActiveCart(): Observable<Cart>;
+  getCartItemsCount(): Observable<number>;
+  getCartTotal(): Observable<string | undefined>;
+  isCartEmpty(): Observable<boolean>;
+}
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+**Key Implementation Details:**
 
-## Install Nx Console
+- Uses Spartacus public facades (`ActiveCartFacade`, `MultiCartFacade`)
+- Imports from `@spartacus/cart/base/root` (public API)
+- Avoids internal services for better stability
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## 📝 Known Limitations
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### SSR Cyclic Dependency Issue
 
-## Useful links
+The application has a known NG0401 (Cyclic Dependency) error during SSR rendering. This is a limitation when using standalone components with Spartacus modules that have complex interdependencies:
 
-Learn more:
+- **Client-side rendering**: ✅ Works perfectly
+- **SSR rendering**: ⚠️ Has cyclic dependency error (Spartacus limitation)
+- **Impact**: Initial server render fails, but client-side hydration works correctly
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This is a known issue with current Spartacus module architecture and standalone components. The client-side application functions normally.
