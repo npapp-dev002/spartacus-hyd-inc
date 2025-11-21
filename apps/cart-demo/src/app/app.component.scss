@@ -1,0 +1,85 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 150vh; // Add height to enable viewport defer
+}
+
+.cart-info {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.cart-info-placeholder {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.load-cart-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.cart-info-loading {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.hydration-demo-placeholder {
+  margin: 40px 0;
+  padding: 40px;
+  border: 2px dashed #6c757d;
+  border-radius: 12px;
+  background-color: #f8f9fa;
+  text-align: center;
+  
+  h3 {
+    color: #6c757d;
+    margin-bottom: 12px;
+  }
+  
+  p {
+    color: #868e96;
+    font-style: italic;
+  }
+}
+
+.hydration-demo-loading {
+  margin: 40px 0;
+  padding: 40px;
+  border: 2px solid #007bff;
+  border-radius: 12px;
+  background-color: #e7f3ff;
+  text-align: center;
+  
+  h3 {
+    color: #007bff;
+    margin-bottom: 12px;
+  }
+  
+  p {
+    color: #0056b3;
+  }
+}
+

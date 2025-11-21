@@ -1,0 +1,180 @@
+.hydration-demo {
+  margin: 20px 0;
+  padding: 24px;
+  border: 2px solid #007bff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #dee2e6;
+  
+  h2 {
+    margin: 0;
+    color: #212529;
+    font-size: 1.5rem;
+  }
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background-color: #ffc107;
+  color: #212529;
+  
+  &.hydrated {
+    background-color: #28a745;
+    color: white;
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.demo-info {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  .label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  .value {
+    font-size: 1.125rem;
+    color: #212529;
+    font-weight: 600;
+  }
+}
+
+.cart-section {
+  margin: 24px 0;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: #007bff;
+    font-size: 1.25rem;
+  }
+}
+
+.cart-data {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  
+  .data-label {
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  .data-value {
+    color: #007bff;
+    font-size: 1.125rem;
+  }
+}
+
+.interaction-section {
+  margin: 24px 0;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.interaction-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.hint {
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.hydration-explanation {
+  margin-top: 24px;
+  padding: 20px;
+  background-color: #e7f3ff;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+  
+  h4 {
+    margin-top: 0;
+    color: #0056b3;
+    font-size: 1.125rem;
+  }
+  
+  ul {
+    margin: 12px 0 0 0;
+    padding-left: 24px;
+    
+    li {
+      margin: 8px 0;
+      color: #495057;
+      line-height: 1.6;
+    }
+  }
+}
+

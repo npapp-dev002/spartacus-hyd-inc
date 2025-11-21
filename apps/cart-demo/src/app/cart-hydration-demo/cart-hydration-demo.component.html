@@ -1,0 +1,56 @@
+<div class="hydration-demo">
+  <div class="demo-header">
+    <h2>🔄 Hydration Demo Component</h2>
+    <div class="status-badge" [class.hydrated]="isHydrated()">
+      Status: {{ getHydrationStatus() }}
+    </div>
+  </div>
+  
+  <div class="demo-info">
+    <div class="info-item">
+      <span class="label">Hydration Time:</span>
+      <span class="value">{{ hydrationTimestamp() || 'Not yet' }}</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Interactions:</span>
+      <span class="value">{{ interactionCount() }}</span>
+    </div>
+  </div>
+  
+  <div class="cart-section">
+    <h3>Cart Data (from Spartacus)</h3>
+    <div class="cart-data">
+      <div class="data-row">
+        <span class="data-label">Items in cart:</span>
+        <strong class="data-value">{{ cartItemsCount$ | async }}</strong>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Cart total:</span>
+        <strong class="data-value">{{ (cartTotal$ | async) ?? 'N/A' }}</strong>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Is empty:</span>
+        <strong class="data-value">{{ isCartEmpty$ | async }}</strong>
+      </div>
+    </div>
+  </div>
+  
+  <div class="interaction-section">
+    <button class="interaction-btn" (click)="onInteraction()">
+      Click to Interact ({{ interactionCount() }})
+    </button>
+    <p class="hint">This demonstrates client-side interactivity after hydration</p>
+  </div>
+  
+  <div class="hydration-explanation">
+    <h4>How Hydration Works:</h4>
+    <ul>
+      <li>✅ Component renders on server (SSR)</li>
+      <li>✅ HTML sent to browser</li>
+      <li>✅ Angular hydrates the component on client</li>
+      <li>✅ Component becomes interactive</li>
+      <li>✅ Cart data loads from Spartacus</li>
+    </ul>
+  </div>
+</div>
+

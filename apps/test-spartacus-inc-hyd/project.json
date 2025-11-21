@@ -1,0 +1,146 @@
+{
+  "name": "test-spartacus-inc-hyd",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/test-spartacus-inc-hyd/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/test-spartacus-inc-hyd",
+        "index": "apps/test-spartacus-inc-hyd/src/index.html",
+        "browser": "apps/test-spartacus-inc-hyd/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/test-spartacus-inc-hyd/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/test-spartacus-inc-hyd/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@spartacus/smartedit/assets",
+            "output": "assets/"
+          }
+        ],
+        "styles": [
+          "apps/test-spartacus-inc-hyd/src/styles.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/user.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/cart.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/order.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/checkout.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/storefinder.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/asm.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/product.scss"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules/"],
+          "sass": {
+            "silenceDeprecations": ["import"]
+          }
+        },
+        "server": "apps/test-spartacus-inc-hyd/src/main.server.ts",
+        "prerender": false,
+        "ssr": {
+          "entry": "apps/test-spartacus-inc-hyd/src/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kB",
+              "maximumError": "3.5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kB",
+              "maximumError": "8kB"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "noSsr": {
+          "ssr": false,
+          "prerender": false
+        },
+        "production-no-opt": {
+          "outputHashing": "all",
+          "optimization": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "test-spartacus-inc-hyd:build:production,noSsr"
+        },
+        "development": {
+          "buildTarget": "test-spartacus-inc-hyd:build:development,noSsr"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "test-spartacus-inc-hyd:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "tsConfig": "apps/test-spartacus-inc-hyd/tsconfig.spec.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/test-spartacus-inc-hyd/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@spartacus/smartedit/assets",
+            "output": "assets/"
+          }
+        ],
+        "styles": [
+          "apps/test-spartacus-inc-hyd/src/styles.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/user.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/cart.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/order.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/checkout.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/storefinder.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/asm.scss",
+          "apps/test-spartacus-inc-hyd/src/styles/spartacus/product.scss"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules/"]
+        }
+      }
+    },
+    "serve:ssr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node dist/apps/test-spartacus-inc-hyd/server/server.mjs",
+        "dependsOn": ["build"]
+      }
+    }
+  },
+  "tags": []
+}
+

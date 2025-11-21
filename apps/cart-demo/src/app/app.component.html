@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>{{ title }}</h1>
+  
+  @defer (on interaction(trigger); hydrate on interaction) {
+    <div class="cart-info">
+      <h2>Cart Information</h2>
+      <p>Items in cart: <strong>{{ cartItemsCount$ | async }}</strong></p>
+      <p>Cart total: <strong>{{ (cartTotal$ | async) ?? 'N/A' }}</strong></p>
+      <p>Cart is empty: <strong>{{ isCartEmpty$ | async }}</strong></p>
+    </div>
+  } @placeholder {
+    <div class="cart-info-placeholder">
+      <h2>Cart Information</h2>
+      <button #trigger class="load-cart-btn" (click)="loadCart()">Click to load cart</button>
+    </div>
+  } @loading (minimum 500ms) {
+    <div class="cart-info-loading">
+      <h2>Cart Information</h2>
+      <p>Loading cart...</p>
+    </div>
+  }
+  
+  @defer (on viewport; hydrate on interaction) {
+    <app-cart-hydration-demo></app-cart-hydration-demo>
+  } @placeholder (minimum 1s) {
+    <div class="hydration-demo-placeholder">
+      <h3>🔄 Hydration Demo Component</h3>
+      <p>Scroll down to see the hydration demo component...</p>
+    </div>
+  } @loading (minimum 500ms) {
+    <div class="hydration-demo-loading">
+      <h3>🔄 Hydration Demo Component</h3>
+      <p>Loading hydration demo...</p>
+    </div>
+  }
+  
+  <router-outlet></router-outlet>
+</div>
