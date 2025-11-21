@@ -81,8 +81,6 @@ npm run serve:ssr:cart-demo
 
 Then open http://localhost:4000
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
 ## 🏗️ Architecture & Implementation
 
 ### Application Configuration
