@@ -67,13 +67,11 @@ The `cart-demo` application includes:
 
 ### Run the Cart Demo Application
 
-**Client-side development mode:**
+**Build all projects:**
 
 ```sh
-npm run serve:cart-demo
+npm run build:all
 ```
-
-Then open http://localhost:4200
 
 **Server-side rendering (SSR) mode:**
 
@@ -83,30 +81,7 @@ npm run serve:ssr:cart-demo
 
 Then open http://localhost:4000
 
-**Build all projects:**
-
-```sh
-npm run build:all
-```
-
-### Run Other Tasks
-
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
-```
-
-For example:
-
-```sh
-npx nx build spartacus-cart-utils
-npx nx test cart-demo
-```
-
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
 ## 🏗️ Architecture & Implementation
 
@@ -183,7 +158,6 @@ export class SpartacusCartUtilsService {
 The application has a known NG0401 (Cyclic Dependency) error during SSR rendering. This is a limitation when using standalone components with Spartacus modules that have complex interdependencies:
 
 - **Client-side rendering**: ✅ Works perfectly
-- **SSR rendering**: ⚠️ Has cyclic dependency error (Spartacus limitation)
+- **SSR rendering**: ⚠️ Has cyclic dependency error (seems to be Spartacus limitation according to Claude Sonnet)
+- **Bootstraping error**: Might not be even related to incremental hydration. It is thrown for ssr execution.
 - **Impact**: Initial server render fails, but client-side hydration works correctly
-
-This is a known issue with current Spartacus module architecture and standalone components. The client-side application functions normally.
